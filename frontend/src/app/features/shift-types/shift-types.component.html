@@ -1,0 +1,51 @@
+<div class="page">
+  <div class="page-title">
+    <div>
+      <h1>Типови смени</h1>
+      <p class="muted">Смени со боја, почетно и завршно време.</p>
+    </div>
+    <button mat-flat-button color="primary" type="button" (click)="open()">
+      <mat-icon>add</mat-icon>
+      Додај смена
+    </button>
+  </div>
+
+  <section class="panel table-wrap">
+    <table mat-table [dataSource]="shiftTypes">
+      <ng-container matColumnDef="color">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let shiftType">
+          <span class="swatch" [style.background]="shiftType.color || '#e5e7eb'"></span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Име</th>
+        <td mat-cell *matCellDef="let shiftType">{{ shiftType.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef>Време</th>
+        <td mat-cell *matCellDef="let shiftType">
+          <span class="time-pill">
+            <mat-icon>schedule</mat-icon>
+            {{ formatTime(shiftType.startTime) }} - {{ formatTime(shiftType.endTime) }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let shiftType" class="action-cell">
+          <div class="row-actions">
+            <button mat-icon-button type="button" aria-label="Уреди тип на смена" (click)="open(shiftType)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button type="button" aria-label="Избриши тип на смена" (click)="remove(shiftType)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </section>
+</div>

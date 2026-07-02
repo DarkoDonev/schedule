@@ -1,0 +1,42 @@
+<div class="shell">
+  <aside>
+    <div class="brand">
+      <mat-icon>calendar_month</mat-icon>
+      <div>
+        <span>Распоред на смени</span>
+        <small>Работна табла</small>
+      </div>
+    </div>
+    <nav>
+      <a routerLink="/schedules" routerLinkActive="active">
+        <mat-icon>view_timeline</mat-icon>
+        Распореди
+      </a>
+      <a routerLink="/employees" routerLinkActive="active">
+        <mat-icon>badge</mat-icon>
+        Вработени
+      </a>
+      <a routerLink="/shift-types" routerLinkActive="active">
+        <mat-icon>schedule</mat-icon>
+        Типови смени
+      </a>
+    </nav>
+    <div class="sidebar-card">
+      <strong>Урамнотежени неделни планови</strong>
+      <span>Секој вработен има два слободни дена неделно.</span>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <span class="muted">{{ managerName() }}</span>
+      <button mat-stroked-button type="button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Одјави се
+      </button>
+    </header>
+    <section class="content">
+      <router-outlet />
+    </section>
+  </main>
+</div>

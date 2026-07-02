@@ -1,0 +1,91 @@
+<div class="page">
+  <section class="hero-strip">
+    <div>
+      <span class="eyebrow">Паметна ротација</span>
+      <h2>Пет работни дена и два слободни дена неделно.</h2>
+      <p>Генераторот рамномерно ги ротира смените и зачувува неделен одмор за секој избран вработен.</p>
+    </div>
+    <div class="hero-metric">
+      <strong>2</strong>
+      <span>слободни дена неделно</span>
+    </div>
+  </section>
+
+  <div class="page-title">
+    <div>
+      <h1>Генерирај распоред</h1>
+      <p class="muted">Изберете датуми, вработени и смени. Системот рамномерно ќе ги распореди задачите.</p>
+    </div>
+    <button mat-stroked-button type="button" routerLink="/schedules">
+      <mat-icon>arrow_back</mat-icon>
+      Назад
+    </button>
+  </div>
+
+  <section class="panel">
+    <form class="form-grid" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Наслов</mat-label>
+        <input matInput formControlName="title" placeholder="Јулски распоред">
+        @if (form.controls.title.hasError('required')) {
+          <mat-error>Насловот е задолжителен.</mat-error>
+        }
+        @if (form.controls.title.hasError('minlength')) {
+          <mat-error>Внесете најмалку 2 знаци.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Почетен датум</mat-label>
+        <input matInput type="date" formControlName="startDate">
+        @if (form.controls.startDate.hasError('required')) {
+          <mat-error>Почетниот датум е задолжителен.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Краен датум</mat-label>
+        <input matInput type="date" formControlName="endDate">
+        @if (form.controls.endDate.hasError('required')) {
+          <mat-error>Крајниот датум е задолжителен.</mat-error>
+        }
+        @if (form.hasError('dateRange') && form.controls.endDate.touched) {
+          <mat-error>Крајниот датум мора да биде по почетниот датум.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Вработени</mat-label>
+        <mat-select formControlName="employeeIds" multiple>
+          @for (employee of employees; track employee.id) {
+            <mat-option [value]="employee.id">{{ employee.fullName }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>Избрани: {{ form.controls.employeeIds.value.length }}</mat-hint>
+        @if (form.controls.employeeIds.hasError('minSelected')) {
+          <mat-error>Изберете најмалку еден вработен.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Типови смени</mat-label>
+        <mat-select formControlName="shiftTypeIds" multiple>
+          @for (shiftType of shiftTypes; track shiftType.id) {
+            <mat-option [value]="shiftType.id">{{ shiftType.name }} · {{ formatTime(shiftType.startTime) }}-{{ formatTime(shiftType.endTime) }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>Избрани: {{ form.controls.shiftTypeIds.value.length }}</mat-hint>
+        @if (form.controls.shiftTypeIds.hasError('minSelected')) {
+          <mat-error>Изберете најмалку еден тип на смена.</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || loading">
+          <mat-icon>auto_awesome</mat-icon>
+          Генерирај распоред
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

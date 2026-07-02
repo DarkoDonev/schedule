@@ -1,0 +1,38 @@
+<main class="login-screen">
+  <section class="login-panel">
+    <div class="mark">
+      <mat-icon>calendar_month</mat-icon>
+    </div>
+    <h1>Распоред на смени</h1>
+    <p class="muted">Пристап за менаџер</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Е-пошта</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email" placeholder="manager@example.com">
+        @if (form.controls.email.hasError('required')) {
+          <mat-error>Е-поштата е задолжителна.</mat-error>
+        }
+        @if (form.controls.email.hasError('email')) {
+          <mat-error>Внесете валидна е-пошта.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Лозинка</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password">
+        @if (form.controls.password.hasError('required')) {
+          <mat-error>Лозинката е задолжителна.</mat-error>
+        }
+        @if (form.controls.password.hasError('minlength')) {
+          <mat-error>Лозинката мора да има најмалку 8 знаци.</mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || loading">
+        <mat-icon>login</mat-icon>
+        Најави се
+      </button>
+    </form>
+  </section>
+</main>
